@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc2-13450" />
-    <PackageReference Include="YesSql.Abstractions" Version="2.0.0-beta-1742" />
-    <PackageReference Include="YesSql.Core" Version="2.0.0-beta-1742" />
   </ItemGroup>
 
 </Project>

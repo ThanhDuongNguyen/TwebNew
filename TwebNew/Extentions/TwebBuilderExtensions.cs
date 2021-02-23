@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds tenant level data access services.
         /// </summary>
         /// <param name="builder">The <see cref="OrchardCoreBuilder"/>.</param>
-        public static OrchardCoreBuilder AddDataAccess(this OrchardCoreBuilder builder)
+        public static OrchardCoreBuilder AddTwebDataAccess(this OrchardCoreBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
@@ -51,50 +51,15 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     IConfiguration storeConfiguration = new YesSql.Configuration();
 
+
+
+
                     switch (shellSettings["DatabaseProvider"])
                     {
                         case "SqlConnection":
-                            const string Db = "database";
-                            const string Catalog = "Initial Catalog";
-                            var dbname = "";
-                            var indexdbName = 0;
-                            var indexCatalog = 0;
-                            var index = 0;
-
-                            indexdbName = shellSettings["ConnectionString"].IndexOf(Db);
-                            indexCatalog = shellSettings["ConnectionString"].IndexOf(Catalog);
-
-                            if (indexCatalog != -1)
-                            {
-                                indexCatalog = indexCatalog + Catalog.Length;
-                                index = indexCatalog;
-                            }
-                            else
-                            {
-                                indexdbName = indexdbName + Db.Length;
-                                index = indexdbName;
-                            }
-
-                            dbname = shellSettings["ConnectionString"].Substring(index).Trim();
-                            dbname = dbname.Substring(dbname.IndexOf("=") + 1).Trim();
-                            dbname = dbname.Substring(0, dbname.IndexOf(";")).Trim();
-
-                            shellSettings["ConnectionString"] = shellSettings["ConnectionString"].Replace(dbname, "master");
-
-                            storeConfiguration.SetNewDatabaseName(dbname);
                             storeConfiguration
-                                .UseSqlServer(shellSettings["ConnectionString"])
+                                .UseSqlServer(shellSettings["ConnectionString"], IsolationLevel.ReadUncommitted)
                                 .UseBlockIdGenerator();
-
-                            StoreFactory.CreateDatabaseAsync(storeConfiguration).GetAwaiter().GetResult();
-                            dbname = dbname.Replace("[", "");
-                            dbname = dbname.Replace("]", "");
-
-                            shellSettings["ConnectionString"] = shellSettings["ConnectionString"].Replace("master", dbname);
-
-                            storeConfiguration
-                                        .UseSqlServer(shellSettings["ConnectionString"])
-                                        .UseBlockIdGenerator();
                             break;
                         case "Sqlite":
                             var shellOptions = sp.GetService<IOptions<ShellOptions>>();
