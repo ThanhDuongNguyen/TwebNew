@@ -9,12 +9,14 @@ using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Environment.Shell.Scope;
 using OrchardCore.Modules;
+using TwebNew.DataAccess;
 using YesSql;
 using YesSql.Indexes;
 using YesSql.Provider.MySql;
 using YesSql.Provider.PostgreSql;
 using YesSql.Provider.Sqlite;
 using YesSql.Provider.SqlServer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -30,6 +32,8 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 services.AddScoped<IDataMigrationManager, DataMigrationManager>();
                 services.AddScoped<IModularTenantEvents, AutomaticDataMigrations>();
+
+                
 
                 // Adding supported databases
                 services.TryAddDataProvider(name: "Sql Server", value: "SqlConnection", hasConnectionString: true, sampleConnectionString: "Server=localhost;Database=Orchard;User Id=username;Password=password", hasTablePrefix: true, isDefault: false);
@@ -51,12 +55,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     IConfiguration storeConfiguration = new YesSql.Configuration();
 
-
-
-
                     switch (shellSettings["DatabaseProvider"])
                     {
                         case "SqlConnection":
+                            //Create DB
+                            TwebDbContext twebDbContext = new TwebDbContext(shellSettings["ConnectionString"]);
+                            twebDbContext.Database.EnsureCreated();
+
                             storeConfiguration
                                 .UseSqlServer(shellSettings["ConnectionString"], IsolationLevel.ReadUncommitted)
                                 .UseBlockIdGenerator();
