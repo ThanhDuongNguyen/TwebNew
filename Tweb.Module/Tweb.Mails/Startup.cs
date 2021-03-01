@@ -5,42 +5,40 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Modules;
-using Tweb.Users.DataAccess;
+using Tweb.Mails.DataAccess;
 
-namespace Tweb.Users
+namespace Tweb.Mails
 {
     public class Startup : StartupBase
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-
-
             var shellSettings = services.BuildServiceProvider().GetService<ShellSettings>();
-            services.AddDbContext<TwebUserDbContext>(option =>
+            services.AddDbContext<TwebMailDbContext>(option =>
             {
                 option.UseSqlServer(shellSettings["ConnectionString"]);
             });
 
 
-            var userDbContext = services.BuildServiceProvider().GetService<TwebUserDbContext>();
+            var mailDbContext = services.BuildServiceProvider().GetService<TwebMailDbContext>();
             try
             {
-                userDbContext.Database.Migrate();
+                mailDbContext.Database.Migrate();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
-            userDbContext.Roles.Add(new Role { RoleName = "admin" });
-            userDbContext.SaveChanges();
+            mailDbContext.Add(new Mail { Sender = "TD", MailProvider = "google", Content = "hello" });
+            mailDbContext.SaveChanges();
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
             routes.MapAreaControllerRoute(
                 name: "Home",
-                areaName: "Tweb.Users",
+                areaName: "Tweb.Mails",
                 pattern: "Home/Index",
                 defaults: new { controller = "Home", action = "Index" }
             );

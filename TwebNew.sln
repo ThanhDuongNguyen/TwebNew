@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwebNew", "TwebNew\TwebNew.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweb.Users", "Tweb.Module\Tweb.Users\Tweb.Users.csproj", "{A6F4501D-C4F5-4EE7-867B-857525D4E919}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweb.Mails", "Tweb.Module\Tweb.Mails\Tweb.Mails.csproj", "{106E468C-B6AB-404B-AD59-4EC208A3B9D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A6F4501D-C4F5-4EE7-867B-857525D4E919}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6F4501D-C4F5-4EE7-867B-857525D4E919}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6F4501D-C4F5-4EE7-867B-857525D4E919}.Release|Any CPU.Build.0 = Release|Any CPU
+		{106E468C-B6AB-404B-AD59-4EC208A3B9D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{106E468C-B6AB-404B-AD59-4EC208A3B9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{106E468C-B6AB-404B-AD59-4EC208A3B9D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{106E468C-B6AB-404B-AD59-4EC208A3B9D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

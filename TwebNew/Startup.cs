@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OrchardCore.Environment.Shell;
+using OrchardCore.Logging;
 using TwebNew.DataAccess;
 
 namespace TwebNew
@@ -25,9 +26,10 @@ namespace TwebNew
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseRouting();
+            //app.UseDeveloperExceptionPage();
+            //app.UseRouting();
             app.UseStaticFiles();
-            app.UseOrchardCore();
+            app.UseOrchardCore(c => c.UseSerilogTenantNameLogging());
         }
     }
 }
